@@ -266,13 +266,13 @@
     cave(g, 7);
     var fy = H - 12;
     goldFloor(g, fy, 9);
-    var dw = Math.round(W * 0.5), dh = Math.round(H * 0.6), dx = W - dw, dy = H - dh - 10;
-    hoard(g, Math.round(W * 0.78), H, Math.round(W * 0.26), Math.round(H * 0.3), 3);
+    var dw = Math.round(W * (W >= 400 ? 0.46 : 0.5)), dh = Math.round(H * 0.6), dx = W - dw, dy = H - dh - 10;
+    hoard(g, Math.round(W * 0.78), H, Math.round(W * (W >= 400 ? 0.24 : 0.26)), Math.round(H * 0.3), 3);
     var breath = opts.still ? 0 : (mood === 0 ? Math.round(1 + Math.sin(ph / 6)) : 0);
     var d = dragon(g, dx, dy, dw, dh, mood, breath);
     if (mood === 0) zzz(g, d.nose[0] - 2, d.nose[1] - 10, opts.still ? 0 : ph);
     else smoke(g, d.nose[0], d.nose[1], opts.still ? 0 : ph);
-    var n = W >= 300 ? 3 : 2, sx = Math.round(W * (W >= 300 ? 0.27 : 0.29));
+    var n = W >= 400 ? 5 : W >= 300 ? 3 : 2, sx = W >= 400 ? 86 : Math.round(W * (W >= 300 ? 0.27 : 0.29));
     for (var i = 0; i < n; i++) {
       var t = crew[i] || traits("crew" + i), step = opts.still ? 0 : ((ph + i * 3) >> 2) % 2;
       viking(g, sx + i * 19, fy - 33 - step, 1, t, { sneak: true });
