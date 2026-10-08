@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAID</title>
+<meta name="description" content="Hold $50 and you're a viking. 85% of fees fill the dragon's hoard. Every 6 hours the crew raids it. Sells wake the dragon.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://raidsol.vercel.app/">
+<meta property="og:title" content="RAID">
+<meta property="og:description" content="Hold $50, join the raid. Every 6h we hit the hoard. Sells wake the dragon.">
+<meta property="og:image" content="https://raidsol.vercel.app/api/og">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RAID">
+<meta name="twitter:description" content="Hold $50, join the raid. Every 6h we hit the hoard. Sells wake the dragon.">
+<meta name="twitter:image" content="https://raidsol.vercel.app/api/og">
+<meta name="theme-color" content="#120d14">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;900&family=JetBrains+Mono:wght@500;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120d14;--bg2:#1a1220;--card:#22182a;--line:#3a2836;--ink:#f5efe6;--mut:#b8acc0;--dim:#8a7f96;--red:#e8552e;--redD:#8e2f17;--gold:#ffd34d;--ok:#7be0a8;
+--sans:"Inter Tight","Noto Sans","Liberation Sans",system-ui,sans-serif;--px:"Silkscreen","DejaVu Sans Mono",monospace;--mono:"JetBrains Mono","DejaVu Sans Mono","Liberation Mono",monospace}
+*{box-sizing:border-box}
+html{overflow-x:hidden;scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;overflow-x:clip;color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  background:var(--bg) linear-gradient(#2a1d2e 1px,transparent 1px) 0 0/40px 40px,var(--bg) linear-gradient(90deg,#2a1d2e 1px,transparent 1px) 0 0/40px 40px;background-blend-mode:normal}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(18,13,20,.2),rgba(18,13,20,.92) 70%);pointer-events:none;z-index:-1}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-left:24px;padding-right:24px}
+.px{image-rendering:pixelated;image-rendering:crisp-edges}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.frame{border:4px solid #0b080d;box-shadow:0 0 0 4px #3a2836,8px 8px 0 4px #0b080d}
+nav{position:sticky;top:0;z-index:20;background:rgba(18,13,20,.92);border-bottom:4px solid #0b080d}
+nav .wrap{display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font:700 22px var(--px);letter-spacing:.04em;text-decoration:none;color:var(--gold);text-shadow:2px 2px 0 #0b080d}
+.brand canvas{width:30px;height:30px}
+.navlinks{display:flex;gap:20px;margin-left:auto;font:400 13px var(--px);color:var(--mut);text-transform:uppercase}
+.navlinks a{text-decoration:none}.navlinks a:hover{color:var(--gold)}
+.chip{font:400 12px var(--px);padding:7px 10px;border:3px solid #0b080d;box-shadow:0 0 0 2px var(--line);color:var(--mut);white-space:nowrap;background:#1a1220;cursor:pointer;text-transform:uppercase}
+.chip b{color:var(--gold);font-weight:400}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:3px solid #0b080d;cursor:pointer;font:400 14px var(--px);text-transform:uppercase;letter-spacing:.04em;padding:11px 18px;background:var(--red);color:#fff;box-shadow:4px 4px 0 #0b080d;transition:transform .06s;text-decoration:none}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 #0b080d}.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #0b080d}
+.btn.alt{background:#2f1f30}
+.btn.gold{background:var(--gold);color:#1b1408}
+.btn.sm{font-size:12px;padding:9px 13px}
+.hero{padding-top:28px}
+.stage{position:relative;background:var(--bg)}
+.stage canvas{display:block;width:100%;height:auto}
+.bar{margin-top:22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px 28px;align-items:center}
+.pitch h2{margin:0;font:400 clamp(28px,4.4vw,52px)/1.02 var(--px);text-transform:uppercase;text-shadow:4px 4px 0 #0b080d}
+.pitch h2 em{font-style:normal;color:var(--gold)}
+.pitch p{margin:12px 0 0;font-size:19px;color:var(--mut);max-width:560px}
+.pitch p b{color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.check{display:flex;border:3px solid #0b080d;box-shadow:4px 4px 0 #0b080d;background:#1a1220;min-width:0}
+.check input{width:290px;min-width:0;border:0;background:none;padding:10px 12px;font:500 13px var(--mono);outline:none}
+.check input::placeholder{color:var(--dim)}
+.check button{border:0;border-left:3px solid #0b080d;background:#2f1f30;padding:0 14px;font:400 12px var(--px);text-transform:uppercase;cursor:pointer}
+.err{min-height:22px;margin-top:10px;font:500 14px var(--mono);color:var(--red)}
+.status{margin-top:18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;font:500 12px var(--mono);color:var(--dim)}
+.you{margin-top:26px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:26px;align-items:center;background:var(--card);padding:20px}
+.you canvas{width:100%;height:auto}
+.you .tag{display:inline-block;font:400 12px var(--px);letter-spacing:.06em;padding:6px 10px;border:3px solid currentColor}
+.tag.in{color:var(--ok)}.tag.out{color:var(--red)}.tag.wait{color:var(--dim)}
+.you h2{margin:12px 0 4px;font:400 clamp(26px,3.6vw,40px)/1.05 var(--px);text-transform:uppercase;color:var(--gold);text-shadow:3px 3px 0 #0b080d}
+.you .addr{font:500 12px var(--mono);color:var(--dim);word-break:break-all}
+.you .rows{margin-top:14px;font:500 14px var(--mono);color:var(--mut);max-width:440px}
+.you .rows div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:2px solid var(--line)}
+.you .rows b{color:var(--ink)}
+.you .actions{margin-top:16px}
+section.sec{padding-top:80px}
+.sec h2.t{margin:0 0 24px;font:400 clamp(24px,3.4vw,36px)/1.1 var(--px);text-transform:uppercase;color:var(--ink);text-shadow:3px 3px 0 #0b080d}
+.sec h2.t span{display:block;margin-bottom:8px;font:400 13px var(--px);color:var(--red);text-shadow:none}
+.crew{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px}
+.mate{background:var(--card);padding:12px 10px;text-align:center}
+.mate canvas{width:78px;height:87px;display:block;margin:0 auto 8px}
+.mate b{display:block;font:400 13px/1.3 var(--px);text-transform:uppercase;color:var(--gold)}
+.mate span{display:block;font:500 12px var(--mono);color:var(--dim)}
+.mate i{font-style:normal;font:600 13px var(--mono);color:var(--ink)}
+.empty{border:3px dashed var(--line);padding:24px;color:var(--dim);font:500 14px var(--mono);text-align:center;background:rgba(13,23,30,.8)}
+.vault{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:24px;align-items:start}
+.vbox{background:var(--card);padding:18px;font:500 14px var(--mono);color:var(--mut)}
+.vbox .lab{font:400 12px var(--px);color:var(--dim);text-transform:uppercase}
+.vbox .big{font:400 34px var(--px);color:var(--gold);margin:6px 0 10px;text-shadow:3px 3px 0 #0b080d}
+.vbox a{color:var(--ink)}
+.log div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:2px solid var(--line);font:500 13px var(--mono);color:var(--mut)}
+.log a{color:var(--gold);text-decoration:none}
+footer{margin-top:90px;border-top:4px solid #0b080d;background:rgba(18,13,20,.92);padding-top:22px;padding-bottom:40px;font:400 12px var(--px);color:var(--dim);text-transform:uppercase}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between}
+dialog{border:4px solid #0b080d;box-shadow:0 0 0 3px var(--red);background:#1a1220;color:var(--ink);padding:20px;width:min(380px,calc(100vw - 32px))}
+dialog::backdrop{background:rgba(3,6,9,.7)}
+dialog h3{margin:0 0 12px;font:400 16px var(--px);text-transform:uppercase}
+.wl{display:grid;gap:8px}
+.wl button{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border:3px solid #0b080d;background:#24182a;cursor:pointer;font-weight:700;text-align:left}
+.wl img{width:28px;height:28px}
+.note{font-size:14px;color:var(--dim)}
+.hidden{display:none!important}
+@media (max-width:980px){
+  .bar{grid-template-columns:minmax(0,1fr)}
+  .vault{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .wrap{padding-left:16px;padding-right:16px}
+  .navlinks{display:none}
+  nav .wrap{gap:10px}
+  #navHeist{margin-left:auto}
+  #navHeist span{display:none}
+  .brand{font-size:19px}
+  nav .btn.sm{padding:8px 10px}
+  .hero{padding-top:16px}
+  .frame{box-shadow:0 0 0 3px #3a2836,5px 5px 0 3px #0b080d}
+  .bar p{font-size:16px}
+  .actions .btn,.check{flex:1 1 100%}
+  .check input{width:auto;flex:1}
+  .you{grid-template-columns:minmax(0,1fr)}
+  .you canvas{max-width:220px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+.tape{height:16px;background:repeating-linear-gradient(-45deg,var(--gold) 0 14px,#0b080d 14px 28px);border-top:3px solid #0b080d;border-bottom:3px solid #0b080d}
+.ticker{overflow:hidden;background:#0b080d;border-bottom:4px solid #0b080d;white-space:nowrap}
+.ticker .run{display:inline-flex;animation:run 38s linear infinite;padding:8px 0}
+.ticker span{font:400 13px var(--px);text-transform:uppercase;color:var(--mut);padding:0 18px}
+.ticker span b{font-weight:400;color:var(--gold)}.ticker span i{font-style:normal;color:var(--red)}
+.ticker span::after{content:"\25C6";color:var(--redD);margin-left:36px}
+@keyframes run{to{transform:translateX(-50%)}}
+.job{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px}
+.panel{background:var(--card);padding:22px}
+.panel .lab{font:400 12px var(--px);color:var(--dim);text-transform:uppercase}
+.odds{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:6px 0 16px}
+.odds .big{font:400 clamp(56px,8vw,88px)/1 var(--px);color:var(--ink);text-shadow:5px 5px 0 #0b080d}
+.odds .sub{font:500 14px var(--mono);color:var(--mut)}
+.meter{display:grid;grid-template-columns:repeat(16,1fr);gap:4px;padding:6px;background:#0b080d}
+.meter i{height:30px;background:#2a1d2e}
+.meter i.on{background:var(--red);box-shadow:inset 0 -6px 0 var(--redD),inset 0 4px 0 #ff9a6a}
+.meter i.max{background:var(--gold);box-shadow:inset 0 -6px 0 var(--goldD,#c9861c),inset 0 4px 0 #fff1a8}
+.scale{display:flex;justify-content:space-between;margin-top:8px;font:400 11px var(--px);color:var(--dim)}
+.oddsnote{margin:16px 0 0;font:500 14px var(--mono);color:var(--mut)}
+.oddsnote b{color:var(--gold);font-weight:700}
+.slots{display:grid;gap:10px;margin-top:12px}
+.slot{display:grid;grid-template-columns:86px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 14px;background:#1a1220;border:3px solid #0b080d}
+.slot b{font:400 20px var(--px);color:var(--mut)}
+.slot span{font:500 13px var(--mono);color:var(--dim)}
+.slot em{font-style:normal;font:400 11px var(--px);color:var(--dim);text-transform:uppercase}
+.slot.next{background:#2a1a10;border-color:var(--red);box-shadow:4px 4px 0 #0b080d}
+.slot.next b{color:var(--red)}.slot.next em{color:var(--ink)}
+.crewhead{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between;margin:-8px 0 20px;font:500 14px var(--mono);color:var(--mut)}
+.crewhead b{font:400 22px var(--px);color:var(--gold)}
+.mate.seat{border-style:dashed;background:rgba(13,23,30,.6);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:150px;color:var(--dim);box-shadow:none;border:3px dashed var(--line)}
+.mate.seat b{color:var(--mut)}
+.mate.seat .q{font:400 40px var(--px);color:var(--line);line-height:1;margin-bottom:10px}
+.plan{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;counter-reset:p}
+.step{background:var(--card);display:flex;flex-direction:column}
+.step canvas{width:100%;height:auto;display:block;border-bottom:4px solid #0b080d}
+.step .in{padding:16px 16px 18px}
+.step .k{font:400 12px var(--px);color:var(--red)}
+.step h3{margin:6px 0 6px;font:400 19px/1.15 var(--px);text-transform:uppercase}
+.step p{margin:0;color:var(--mut);font-size:15px}
+.vnum{display:flex;align-items:center;gap:14px}
+.vnum canvas{width:56px;height:56px}
+.cta{margin-top:96px;text-align:center;padding:44px 20px 40px;background:var(--card);position:relative}
+.cta canvas{width:min(560px,100%);height:auto;display:block;margin:0 auto 18px}
+.cta h2{margin:0;font:400 clamp(30px,5vw,56px)/1 var(--px);text-transform:uppercase;text-shadow:4px 4px 0 #0b080d}
+.cta h2 em{font-style:normal;color:var(--gold)}
+.cta p{margin:12px auto 22px;color:var(--mut);max-width:520px}
+.cta .actions{justify-content:center}
+footer{margin-top:0}
+footer .wrap{align-items:center}
+footer .brand{font-size:16px}
+@media (max-width:980px){.job{grid-template-columns:minmax(0,1fr)}.plan{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.plan{grid-template-columns:minmax(0,1fr)}.pitch p{font-size:16px}.slot{grid-template-columns:70px minmax(0,1fr) auto}.slot b{font-size:17px}.ticker span{font-size:12px}.cta{margin-top:72px;padding:30px 16px}}
+@media (prefers-reduced-motion:reduce){.ticker .run{animation:none}}
+.mood{display:inline-block;margin-left:10px;font:400 11px var(--px);padding:5px 8px;border:3px solid #0b080d;vertical-align:middle}
+.mood.m0{background:#2f8a5a;color:#fff}.mood.m1{background:#ffd34d;color:#2a1a10}.mood.m2{background:#e8552e;color:#fff}.mood.mx{background:#2f1f30;color:var(--dim)}
+.flow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.flow div{background:#1a1220;border:3px solid #0b080d;padding:10px 12px;font:500 13px var(--mono);color:var(--mut)}
+.flow b{display:block;font:400 22px var(--px);margin-top:2px}
+.flow .pos b{color:#7be0a8}.flow .neg b{color:#ff8a6a}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="#top"><canvas id="mark" width="26" height="24" class="px" aria-hidden="true"></canvas>RAID</a>
+  <div class="navlinks"><a href="#job">raid</a><a href="#crew">crew</a><a href="#plan">plan</a><a href="#vault">hoard</a></div>
+  <button class="chip" id="navHeist" type="button" title="copy contract address"><b>CA</b> <span id="ca">—</span></button>
+  <button class="btn sm" id="navConnect" type="button">connect</button>
+</div></nav>
+<div class="ticker" aria-hidden="true"><div class="run" id="tick"></div></div>
+
+<main id="top">
+<header class="hero wrap">
+  <h1 class="sr">RAID</h1>
+  <div class="stage frame" id="stage">
+    <canvas id="scene" class="px" width="320" height="124" aria-label="the dragon's cave: hoard balance, next raid and odds"></canvas>
+  </div>
+  <div class="sr" id="board" aria-live="polite">hoard <span id="bVault">—</span>, next raid <span id="bJob">—</span>, odds <span id="bOdds">—</span></div>
+  <div class="status"><span id="stLeft">—</span><span id="stRight">raids at 00:00 · 06:00 · 12:00 · 18:00 utc</span></div>
+  <div class="bar">
+    <div class="pitch">
+      <h2>a crew of vikings.<br><em>one sleeping dragon.</em></h2>
+      <p>Every 6 hours we raid the hoard. Win, we split it. Lose, it grows. <b>Sells wake the dragon. $50 gets you in.</b></p>
+    </div>
+    <div class="actions">
+      <button class="btn" id="connect" type="button">connect wallet</button>
+      <form class="check" id="check" autocomplete="off">
+        <input id="checkIn" name="w" spellcheck="false" placeholder="or check any wallet address" aria-label="wallet address to check">
+        <button type="submit">check</button>
+      </form>
+    </div>
+  </div>
+  <div class="err" id="err" role="status"></div>
+
+  <div class="you frame hidden" id="you">
+    <canvas id="me" class="px" width="60" height="64" aria-label="your viking"></canvas>
+    <div>
+      <span class="tag wait" id="youTag">—</span>
+      <h2 id="youName">—</h2>
+      <div class="addr" id="youAddr"></div>
+      <div class="rows">
+        <div><span>holding</span><b id="youHold">—</b></div>
+        <div><span>value</span><b id="youVal">—</b></div>
+        <div><span>to join</span><b id="youNeed">—</b></div>
+      </div>
+      <div class="actions">
+        <button class="btn sm gold" id="save" type="button">save my viking</button>
+        <a class="btn sm alt" id="post" href="#" target="_blank" rel="noopener">post on x</a>
+        <a class="btn sm alt hidden" id="buy" href="#" target="_blank" rel="noopener">buy</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="sec wrap" id="job">
+  <h2 class="t"><span>01 / THE RAID</span>buys lull it. sells wake it.</h2>
+  <div class="job">
+    <div class="panel frame">
+      <div class="lab">odds on the next raid <span class="mood mx" id="mood">dragon —</span></div>
+      <div class="odds"><span class="big" id="oBig">—</span></div>
+      <div class="flow"><div class="pos">buys · last 6h<b id="oBuys">—</b></div><div class="neg">sells · last 6h<b id="oSells">—</b></div></div>
+      <div class="meter" id="meter"></div>
+      <div class="scale"><span>0%</span><span>40%</span><span>80% max</span></div>
+      <p class="oddsnote" id="oNote">+1% per 10 buys. −1% per 10 sells.</p>
+    </div>
+    <div class="panel frame">
+      <div class="lab">raid times · your clock</div>
+      <div class="slots" id="slots"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec wrap" id="crew">
+  <h2 class="t"><span>02 / THE CREW</span>who's going in</h2>
+  <div class="crewhead"><span>biggest raiders right now</span><span>crew on the board <b id="crewN">—</b></span></div>
+  <div id="crewBox"><div class="empty">—<br>the crew forms at launch.</div></div>
+</section>
+
+<section class="sec wrap" id="plan">
+  <h2 class="t"><span>03 / THE PLAN</span>hold. sneak. raid.</h2>
+  <div class="plan">
+    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="0" aria-hidden="true"></canvas><div class="in"><div class="k">STEP 1 · $50</div><h3>grab a shield</h3><p>Hold $50 and you're a viking. Beard, shield and name come from your wallet.</p></div></div>
+    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="1" aria-hidden="true"></canvas><div class="in"><div class="k">STEP 2 · 85%</div><h3>the hoard grows</h3><p>85% of creator fees go into the hoard wallet. Every coin on chain.</p></div></div>
+    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="2" aria-hidden="true"></canvas><div class="in"><div class="k">STEP 3 · EVERY 6H</div><h3>the raid</h3><p>At 00, 06, 12 and 18 UTC we go in. Odds start at 20%, +1% per 10 buys, −1% per 10 sells. 5% to 80%.</p></div></div>
+    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="3" aria-hidden="true"></canvas><div class="in"><div class="k">STEP 4 · THE SPLIT</div><h3>win or burn</h3><p>Win: the hoard splits equally across the crew. Lose: it rolls into the next raid. Under $50 at go time, you sit out.</p></div></div>
+  </div>
+</section>
+
+<section class="sec wrap" id="vault">
+  <h2 class="t"><span>04 / THE HOARD</span>every coin on chain</h2>
+  <div class="vault">
+    <div class="vbox frame">
+      <div class="lab">hoard balance</div>
+      <div class="vnum"><canvas id="vIc" class="px" width="28" height="28" aria-hidden="true"></canvas><div class="big" id="vBig">—</div></div>
+      <div id="vAddr">hoard address: —</div>
+    </div>
+    <div class="vbox frame"><div class="lab">latest hoard transactions</div><div class="log" id="vLog"><div><span>—</span><span>no hoard yet</span></div></div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta frame">
+    <canvas id="lineup" class="px" width="140" height="40" aria-hidden="true"></canvas>
+    <h2>$50 gets you <em>in.</em></h2>
+    <p>Connect or paste a wallet to meet your viking.</p>
+    <div class="actions"><button class="btn" id="connect2" type="button">connect wallet</button><a class="btn alt hidden" id="buy2" href="#" target="_blank" rel="noopener">buy</a></div>
+  </div>
+</section>
+</main>
+
+<div class="tape" style="margin-top:72px" aria-hidden="true"></div>
+<footer><div class="wrap">
+  <a class="brand" href="#top">RAID</a>
+  <span><a href="https://github.com/leontineidewall-oss/raid" target="_blank" rel="noopener">code</a></span>
+</div></footer>
+
+<dialog id="wdlg">
+  <h3>pick a wallet</h3>
+  <div class="wl" id="wl"></div>
+  <p class="note" id="wnone">No Solana wallet found in this browser. Install Phantom, Solflare or Backpack, then reload.</p>
+  <form method="dialog"><button class="btn alt sm" style="margin-top:12px">close</button></form>
+</dialog>
+
+<script>
+// raid pixel engine: one source for the page scene, viking cards, the share card and /api/og
+// (inlined into index.html by build.py; required by api/og.js in node)
+(function (root) {
+  var PAL = {
+    c0: 0x120d14, c1: 0x1a1220, c2: 0x24182a, c3: 0x2f1f30, rock: 0x3a2836, rockD: 0x22161f,
+    ol: 0x0b080d, glow: 0x5a3a1c, glow2: 0x7a4f1e,
+    gold: 0xffd34d, goldL: 0xfff1a8, goldD: 0xc9861c, goldO: 0x6a3e0e,
+    steel: 0x9aa6b2, steelL: 0xd4dce4, steelD: 0x5f6b78, horn: 0xefe3c4, hornD: 0xb8a77e,
+    skin: 0xf0b98f, skinD: 0xcf8f68, eye: 0x1a1220, wood: 0x8a5a32, woodD: 0x5c3a1e,
+    dr: 0x2f8a5a, drL: 0x4fbf7f, drD: 0x1b5a3a, drB: 0xc9e8a8, drS: 0xffd34d, horn2: 0xe8dcc0,
+    fire: 0xff7a1a, fireL: 0xffd34d, smoke: 0x6a5a72, white: 0xffffff, red: 0xff5a4e, dim: 0x8a7f96, grey: 0x5a5262
+  };
+  var BEARDS = [[0xe0782c, 0xb05418], [0xf2d27a, 0xc9a44a], [0x7a4a2a, 0x55311a], [0x2a2230, 0x15111a], [0xd8d4cc, 0xa8a29a]];
+  var TUNICS = [[0x3a6fd8, 0x2a4fa0], [0xc8323c, 0x8e1f27], [0x2f8a5a, 0x1b5a3a], [0x8e6bff, 0x5f43d1], [0xe0a030, 0xa8741a]];
+  var SHIELDS = [[0xc8323c, 0xf4efe2], [0x3a6fd8, 0xf4efe2], [0x2a2230, 0xffd34d], [0x2f8a5a, 0xf4efe2]];
+  var N1 = ["iron", "salty", "red", "frost", "loud", "storm", "bold", "grim", "sly", "lucky", "broken", "golden"];
+  var N2 = ["beard", "axe", "oar", "horn", "shield", "helm", "fist", "boot", "raven", "wolf", "anchor", "hammer"];
+  var BAYER = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
+
+  function hash(s) { var h = 2166136261; s = String(s); for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function traits(addr) {
+    var h = hash(addr || "raid");
+    return { beard: h % BEARDS.length, tunic: (h >>> 3) % TUNICS.length, shield: (h >>> 6) % SHIELDS.length, eyes: (h >>> 9) & 1 ? "open" : "squint",
+      name: N1[(h >>> 11) % N1.length] + " " + N2[(h >>> 16) % N2.length] };
+  }
+
+  function Grid(w, h, bg) { this.w = w; this.h = h; this.px = new Int32Array(w * h).fill(bg == null ? PAL.c0 : bg); }
+  Grid.prototype.set = function (x, y, c) {
+    x = Math.floor(x); y = Math.floor(y);
+    if (x < 0 || y < 0 || x >= this.w || y >= this.h || c == null) return;
+    this.px[y * this.w + x] = typeof c === "string" ? PAL[c] : c;
+  };
+  Grid.prototype.get = function (x, y) { return x < 0 || y < 0 || x >= this.w || y >= this.h ? -1 : this.px[y * this.w + x]; };
+  Grid.prototype.rect = function (x, y, w, h, c) { for (var j = 0; j < h; j++) for (var i = 0; i < w; i++) this.set(x + i, y + j, c); };
+  Grid.prototype.rgba = function (out) {
+    for (var i = 0; i < this.px.length; i++) {
+      var c = this.px[i];
+      if (c < 0) { out[i * 4 + 3] = 0; continue; }
+      out[i * 4] = (c >> 16) & 255; out[i * 4 + 1] = (c >> 8) & 255; out[i * 4 + 2] = c & 255; out[i * 4 + 3] = 255;
+    }
+    return out;
+  };
+  // draws a buffer (W x H of colours or -1) with a 1px outline around it
+  function stamp(g, buf, W, H, x0, y0, ol) {
+    for (var py = 0; py < H; py++) for (var px = 0; px < W; px++) {
+      var v = buf[py * W + px];
+      if (v < 0) {
+        if ((px > 0 && buf[py * W + px - 1] >= 0) || (px < W - 1 && buf[py * W + px + 1] >= 0) || (py > 0 && buf[(py - 1) * W + px] >= 0) || (py < H - 1 && buf[(py + 1) * W + px] >= 0)) g.set(x0 + px, y0 + py, ol == null ? PAL.ol : ol);
+      } else g.set(x0 + px, y0 + py, v);
+    }
+  }
+  // 3x5 pixel font (rows joined, 15 cells per glyph)
+  var F3 = {
+    "A": ".#.#.#####.##.#",
+    "B": "##.#.###.#.###.",
+    "C": ".###..#..#...##",
+    "D": "##.#.##.##.###.",
+    "E": "####..##.#..###",
+    "F": "####..##.#..#..",
+    "G": ".###..#.##.#.##",
+    "H": "#.##.#####.##.#",
+    "I": "###.#..#..#.###",
+    "J": "..#..#..##.#.#.",
+    "K": "#.##.###.#.##.#",
+    "L": "#..#..#..#..###",
+    "M": "#.########.##.#",
+    "N": "##.#.##.##.##.#",
+    "O": ".#.#.##.##.#.#.",
+    "P": "##.#.###.#..#..",
+    "Q": ".#.#.##.###..##",
+    "R": "##.#.###.#.##.#",
+    "S": ".###...#...###.",
+    "T": "###.#..#..#..#.",
+    "U": "#.##.##.##.####",
+    "V": "#.##.##.##.#.#.",
+    "W": "#.##.########.#",
+    "X": "#.##.#.#.#.##.#",
+    "Y": "#.##.#.#..#..#.",
+    "Z": "###..#.#.#..###",
+    "0": "####.##.##.####",
+    "1": ".#.##..#..#.###",
+    "2": "##...#.#.#..###",
+    "3": "##...#.#...###.",
+    "4": "#.##.####..#..#",
+    "5": "####..##...###.",
+    "6": ".###..####.####",
+    "7": "###..#.#..#..#.",
+    "8": "####.#####.####",
+    "9": "####.####..###.",
+    "$": ".####..#..####.",
+    "?": "##...#.#.....#.",
+    "+": "....#.###.#....",
+    ".": ".............#.",
+    "-": "......###......",
+    ":": "....#.....#....",
+    "!": ".#..#..#.....#.",
+    "/": "..#..#.#.#..#..",
+    " ": "...............",
+    ",": "..........#.#..",
+    "%": "#.#..#.#.#..#.#",
+    "—": "......###......"
+  };
+
+  function textW(s, sc) { return s.length * 4 * sc - sc; }
+  function text(g, s, x, y, sc, col, shadow) {
+    s = String(s).toUpperCase(); sc = sc || 1;
+    for (var n = 0; n < s.length; n++) {
+      var gl = F3[s[n]] || F3["?"];
+      for (var j = 0; j < 5; j++) for (var i = 0; i < 3; i++) if (gl[j * 3 + i] === "#") {
+        if (shadow) g.rect(x + (n * 4 + i) * sc + sc, y + j * sc + sc, sc, sc, shadow);
+      }
+      for (var j2 = 0; j2 < 5; j2++) for (var i2 = 0; i2 < 3; i2++) if (gl[j2 * 3 + i2] === "#") g.rect(x + (n * 4 + i2) * sc, y + j2 * sc, sc, sc, col);
+    }
+  }
+
+  function el(x, y, cx, cy, rx, ry) { var a = (x - cx) / rx, b = (y - cy) / ry; return a * a + b * b <= 1; }
+  function ci(x, y, cx, cy, r) { return (x - cx) * (x - cx) + (y - cy) * (y - cy) <= r * r; }
+
+  // a viking in a 26 x 34 unit box. t = traits; opts: mirror, sneak, dim (sits this raid out)
+  function viking(g, x0, y0, k, t, opts) {
+    opts = opts || {};
+    var W = Math.floor(26 * k), H = Math.floor(34 * k), buf = new Int32Array(W * H).fill(-1);
+    var bc = BEARDS[t.beard][0], bd = BEARDS[t.beard][1], tc = TUNICS[t.tunic][0], td = TUNICS[t.tunic][1], sc = SHIELDS[t.shield][0], sl = SHIELDS[t.shield][1];
+    for (var py = 0; py < H; py++) for (var px = 0; px < W; px++) {
+      var x = (px + 0.5) / k, y = (py + 0.5) / k, c = -1, s, n;
+      if (opts.mirror) x = 26 - x;
+      if (x > 9.2 && x < 12.2 && y > 27 && y < 32.5) c = y > 30.4 ? PAL.woodD : td;
+      if (x > 13.8 && x < 16.8 && y > 27 && y < 32.5) c = y > 30.4 ? PAL.woodD : td;
+      if (opts.sneak && y > 30.4 && y < 32.5 && ((x > 8 && x < 12.2) || (x > 13.8 && x < 18))) c = PAL.woodD;
+      if (el(x, y, 13, 23.5, 6.4, 6.0) && y < 28.4) {
+        c = x < 15.5 ? tc : td;
+        if (y > 25.4 && y < 26.8) c = x > 12 && x < 14 ? PAL.gold : PAL.woodD;
+      }
+      if (el(x, y, 6.8, 22.5, 1.9, 4.2) || el(x, y, 19.2, 22.5, 1.9, 4.2)) c = td;
+      if (ci(x, y, 6.8, 26.4, 1.5) || ci(x, y, 19.2, 26.4, 1.5)) c = PAL.skin;
+      if (el(x, y, 13, 12.5, 5.6, 5.4)) c = x < 16.2 ? PAL.skin : PAL.skinD;
+      if (el(x, y, 13, 17.6, 5.8, 4.6) && y > 14.2) c = x < 15.6 ? bc : bd;
+      for (n = 0; n < 2; n++) {
+        var bx = n ? 15.4 : 10.6;
+        if (Math.abs(x - bx) < 1.0 && y > 19 && y < 24.5) c = Math.floor(y * 1.2) % 2 ? bd : bc;
+        if (ci(x, y, bx, 24.8, 0.9)) c = PAL.gold;
+      }
+      if (y > 14.6 && y < 15.8 && x > 9.4 && x < 16.6) c = bd;
+      if (t.eyes === "open") { if (ci(x, y, 10.9, 12.8, 0.8) || ci(x, y, 15.1, 12.8, 0.8)) c = PAL.eye; }
+      else if (y > 12.6 && y < 13.3 && ((x > 9.8 && x < 12) || (x > 14 && x < 16.2))) c = PAL.eye;
+      if (el(x, y, 13, 9.4, 6.4, 5.4) && y < 10.6) {
+        c = PAL.steel;
+        if (x < 10.5 && y < 7.5) c = PAL.steelL;
+        if (x > 16.4 || Math.abs(x - 13) < 0.6) c = PAL.steelD;
+      }
+      if (y > 9.6 && y < 11.2 && el(x, y, 13, 10.4, 6.8, 1.6)) c = PAL.steelD;
+      if (Math.abs(x - 13) < 0.7 && y > 10 && y < 13.6) c = PAL.steelD;
+      for (s = -1; s <= 1; s += 2) for (n = 0; n <= 10; n++) {
+        var tt = n / 10, hx = 13 + s * (6 + 3 * tt), hy = 8.6 - 5.4 * tt + 1.6 * tt * tt;
+        if (ci(x, y, hx, hy, 1.5 - tt)) c = s < 0 || tt > 0.6 ? PAL.horn : PAL.hornD;
+      }
+      var sx = opts.mirror ? 21 : 5, d = Math.hypot(x - (opts.mirror ? 26 - sx : sx), y - 24);
+      if (opts.mirror) d = Math.hypot((26 - x) - sx, y - 24);
+      if (d <= 4.6) {
+        var a = Math.atan2(y - 24, (opts.mirror ? 26 - x : x) - sx);
+        c = Math.floor((a + Math.PI) / (Math.PI / 3)) % 2 ? sc : sl;
+        if (d > 3.7) c = PAL.woodD;
+        if (d < 1.2) c = PAL.steelL;
+      }
+      if (opts.dim && c >= 0) c = dimc(c);
+      buf[py * W + px] = c;
+    }
+    stamp(g, buf, W, H, x0, y0);
+    return { w: W, h: H };
+  }
+  function dimc(c) { var r = (c >> 16) & 255, gg = (c >> 8) & 255, b = c & 255, l = Math.round((r * 0.3 + gg * 0.55 + b * 0.15) * 0.45 + 18); return (l << 16) | (l << 8) | (l + 8); }
+
+  // the dragon, curled on the hoard in a W x H box. mood: 0 asleep, 1 stirring, 2 awake
+  function dragon(g, x0, y0, W, H, mood, breath) {
+    var buf = new Int32Array(W * H).fill(-1), i, xx, yy;
+    function put(x, y, c) { x = Math.floor(x); y = Math.floor(y); if (x >= 0 && x < W && y >= 0 && y < H) buf[y * W + x] = c; }
+    var lift = breath || 0;
+    for (i = 0; i < 260; i++) {
+      var t = i / 259, bx = W * (0.30 + 0.62 * t), by = H * (0.78 - 0.42 * Math.sin(Math.PI * Math.min(1, t * 1.05))) - lift * Math.sin(Math.PI * t), rr = H * (0.20 - 0.12 * t);
+      for (yy = Math.floor(by - rr); yy <= by + rr; yy++) for (xx = Math.floor(bx - rr); xx <= bx + rr; xx++) {
+        if ((xx - bx) * (xx - bx) + (yy - by) * (yy - by) <= rr * rr) {
+          var belly = yy > by + rr * 0.58;
+          put(xx, yy, belly ? PAL.drB : (yy - by > rr * 0.15 ? PAL.drD : (yy - by < -rr * 0.55 ? PAL.drL : PAL.dr)));
+        }
+      }
+      if (i % 17 === 0 && t < 0.95) {
+        var sh = rr * 0.9;
+        for (var q = 0; q < sh; q++) for (var w = -Math.floor((sh - q) * 0.45); w <= (sh - q) * 0.45; w++) put(bx + w, by - rr - q + 1, q > sh * 0.45 ? PAL.drS : PAL.horn2);
+      }
+    }
+    var tx = W * 0.93, ty = H * 0.76;
+    for (var s2 = 0; s2 < 6; s2++) for (var w2 = -s2; w2 <= s2; w2++) put(tx + 9 - s2, ty + w2, PAL.drD);
+    var hx = W * 0.16, hy = H * 0.74 - (mood === 2 ? H * 0.08 : 0), hr = H * 0.16;
+    for (yy = 0; yy < H; yy++) for (xx = 0; xx < W; xx++) {
+      if (((xx - hx) / (hr * 1.5)) * ((xx - hx) / (hr * 1.5)) + ((yy - hy) / hr) * ((yy - hy) / hr) <= 1) put(xx, yy, yy > hy + hr * 0.5 ? PAL.drD : PAL.dr);
+      var sx = hx - hr * 1.45, sy = hy + hr * 0.25;
+      if (((xx - sx) / (hr * 0.9)) * ((xx - sx) / (hr * 0.9)) + ((yy - sy) / (hr * 0.62)) * ((yy - sy) / (hr * 0.62)) <= 1) put(xx, yy, yy < hy + hr * 0.5 ? PAL.dr : PAL.drD);
+    }
+    for (var h2 = 0; h2 < hr * 1.6; h2++) {
+      put(hx + hr * 0.6 + h2 * 0.9, hy - hr * 0.7 - h2 * 0.55, PAL.horn2); put(hx + hr * 0.6 + h2 * 0.9, hy - hr * 0.7 - h2 * 0.55 + 1, PAL.horn2);
+      put(hx + hr * 0.1 + h2 * 0.7, hy - hr * 0.85 - h2 * 0.7, PAL.horn2);
+    }
+    put(hx - hr * 1.95, hy + hr * 0.05, PAL.ol); put(hx - hr * 1.95 + 1, hy + hr * 0.05, PAL.ol);
+    var ex = hx - hr * 0.25, ey = hy - hr * 0.25;
+    if (mood === 0) { for (var d = -3; d <= 3; d++) put(ex + d, ey + (Math.abs(d) === 3 ? 1 : 0), PAL.ol); }
+    else {
+      var ry = mood === 1 ? 1 : 2;
+      for (yy = -ry; yy <= ry; yy++) for (xx = -3; xx <= 3; xx++) if ((xx / 3.2) * (xx / 3.2) + (yy / (ry + 0.2)) * (yy / (ry + 0.2)) <= 1) put(ex + xx, ey + yy, PAL.drS);
+      for (yy = -ry; yy <= ry; yy++) put(ex, ey + yy, PAL.ol);
+      put(ex - 4, ey - ry - 1, PAL.ol); put(ex - 3, ey - ry - 1, PAL.ol); put(ex - 2, ey - ry - 1, PAL.ol);
+    }
+    stamp(g, buf, W, H, x0, y0);
+    return { nose: [x0 + Math.floor(hx - hr * 2.2), y0 + Math.floor(hy + hr * 0.1)], top: [x0 + Math.floor(hx), y0 + Math.floor(hy - hr)] };
+  }
+
+  var COIN5 = [".OOO.", "OLCCO", "OCCDO", "OCDDO", ".OOO."];
+  var COIN7 = ["..OOO..", ".OLLCO.", "OLCCCDO", "OCCDCDO", "OCCCDDO", ".OCDDO.", "..OOO.."];
+  var CMAP = { O: "goldO", L: "goldL", C: "gold", D: "goldD" };
+  function coin(g, x, y, big) { var rows = big ? COIN7 : COIN5; for (var j = 0; j < rows.length; j++) for (var i = 0; i < rows[j].length; i++) { var c = CMAP[rows[j][i]]; if (c) g.set(x + i, y + j, c); } }
+  function sparkle(g, x, y, c) { g.set(x, y, "white"); g.set(x + 1, y, c || "goldL"); g.set(x - 1, y, c || "goldL"); g.set(x, y + 1, c || "goldL"); g.set(x, y - 1, c || "goldL"); }
+  function rng(seed) { var s = seed >>> 0 || 1; return function () { s = Math.imul(s ^ (s >>> 15), 2246822507) >>> 0; s = Math.imul(s ^ (s >>> 13), 3266489909) >>> 0; s ^= s >>> 16; return (s >>> 0) / 4294967296; }; }
+  function hoard(g, cx, base, rx, ry, seed) {
+    var r = rng(seed || 1), x, y;
+    for (y = base - ry - 2; y <= base; y++) for (x = cx - rx - 2; x <= cx + rx + 2; x++) {
+      var e = ((x - cx) / rx) * ((x - cx) / rx) + ((y - base) / ry) * ((y - base) / ry);
+      if (e > 1) continue;
+      var c = "gold";
+      if (e > 0.86) c = "goldO"; else if (x > cx + rx * 0.35 && BAYER[(y + 64) & 3][(x + 64) & 3] < 9) c = "goldD"; else if ((base - y) / ry > 0.55 && x < cx && BAYER[(y + 64) & 3][(x + 64) & 3] < 6) c = "goldL";
+      g.set(x, y, c);
+    }
+    var n = Math.floor(rx * ry / 9);
+    for (var i = 0; i < n; i++) { var a = r() * Math.PI, d = Math.sqrt(r()); coin(g, Math.floor(cx + Math.cos(a) * rx * d * 0.92) - 3, Math.floor(base - Math.sin(a) * ry * d * 0.9) - 3, r() < 0.5); }
+  }
+  function goldFloor(g, y0, seed) {
+    for (var y = y0; y < g.h; y++) for (var x = 0; x < g.w; x++) {
+      var t = (y - y0) / Math.max(1, g.h - y0), c = y === y0 ? "goldO" : (BAYER[y & 3][x & 3] < 8 - t * 6 ? "goldD" : "gold");
+      if (t > 0.5 && BAYER[(y + 1) & 3][(x + 2) & 3] < 3) c = "goldL";
+      g.set(x, y, c);
+    }
+    var r = rng(seed || 9), n = Math.floor(g.w / 4);
+    for (var i = 0; i < n; i++) coin(g, Math.floor(r() * (g.w + 4)) - 4, y0 - 4 + Math.floor(r() * 9), r() < 0.5);
+  }
+  function cave(g, seed) {
+    var cols = ["c0", "c1", "c2", "c3"], x, y;
+    for (y = 0; y < g.h; y++) { var t = y / g.h * 3, k = Math.min(2, Math.floor(t)), f = t - k; for (x = 0; x < g.w; x++) g.set(x, y, f * 16 > BAYER[y & 3][x & 3] ? cols[k + 1] : cols[k]); }
+    var r = rng(seed || 2); x = 0;
+    while (x < g.w) {
+      var w = 4 + Math.floor(r() * 8), h = 4 + Math.floor(r() * (g.h * 0.2));
+      for (var yy = 0; yy < h; yy++) { var half = (w / 2) * (1 - yy / h); for (var xx = Math.floor(x + w / 2 - half); xx <= x + w / 2 + half; xx++) g.set(xx, yy, xx > x + w / 2 ? "rockD" : "rock"); }
+      x += w + Math.floor(r() * 7);
+    }
+  }
+  function zzz(g, x, y, ph) {
+    [[0, 0, 3], [-5, -8, 4], [-11, -18, 5]].forEach(function (z, i) {
+      if (((ph >> 3) + i) % 4 === 3) return;
+      var zx = x + z[0], zy = y + z[1] - ((ph >> 2) % 3), s = z[2];
+      for (var q = 0; q < s; q++) { g.set(zx + q, zy, "white"); g.set(zx + q, zy + s - 1, "white"); g.set(zx + s - 1 - q, zy + q, "white"); }
+    });
+  }
+  function smoke(g, x, y, ph) { for (var i = 0; i < 4; i++) { var sx = x - 3 - i * 3 + ((ph + i) % 3), sy = y - 2 - i * 3; g.set(sx, sy, "smoke"); g.set(sx + 1, sy, "smoke"); g.set(sx, sy - 1, "grey"); } }
+
+  // the hero scene: cave, gold floor, hoard, dragon (mood from the odds), the crew sneaking in, live hud
+  function scene(g, opts) {
+    opts = opts || {};
+    var W = g.w, H = g.h, ph = opts.phase || 0, crew = opts.crew || [], mood = opts.mood || 0;
+    cave(g, 7);
+    var fy = H - 12;
+    goldFloor(g, fy, 9);
+    var dw = Math.round(W * 0.5), dh = Math.round(H * 0.6), dx = W - dw, dy = H - dh - 10;
+    hoard(g, Math.round(W * 0.78), H, Math.round(W * 0.26), Math.round(H * 0.3), 3);
+    var breath = opts.still ? 0 : (mood === 0 ? Math.round(1 + Math.sin(ph / 6)) : 0);
+    var d = dragon(g, dx, dy, dw, dh, mood, breath);
+    if (mood === 0) zzz(g, d.nose[0] - 2, d.nose[1] - 10, opts.still ? 0 : ph);
+    else smoke(g, d.nose[0], d.nose[1], opts.still ? 0 : ph);
+    var n = W >= 300 ? 3 : 2, sx = Math.round(W * (W >= 300 ? 0.27 : 0.29));
+    for (var i = 0; i < n; i++) {
+      var t = crew[i] || traits("crew" + i), step = opts.still ? 0 : ((ph + i * 3) >> 2) % 2;
+      viking(g, sx + i * 19, fy - 33 - step, 1, t, { sneak: true });
+    }
+    [[0.62, 0.84], [0.9, 0.7], [0.45, 0.93]].forEach(function (s, j) { if (opts.still || (ph + j * 5) % 14 < 9) sparkle(g, Math.round(W * s[0]), Math.round(H * s[1])); });
+    if (opts.hud) {
+      var hs = W >= 300 ? 4 : 3, hx = 8, hy = 8;
+      text(g, "RAID", hx, hy, hs, "gold", "goldO"); hy += hs * 5 + 8;
+      opts.hud.forEach(function (r) { text(g, r[0], hx, hy, 1, "dim"); hy += 7; text(g, r[1], hx, hy, 2, r[2] || "white", "ol"); hy += 15; });
+    }
+  }
+
+  // og / share card (240 x 126; x5 = 1200 x 630)
+  function card(g, lines, opts) {
+    opts = opts || {};
+    cave(g, 5); goldFloor(g, g.h - 14, 4);
+    hoard(g, 196, g.h, 60, 30, 6);
+    if (opts.hero) viking(g, 150, g.h - 14 - 66 + 2, 2, opts.hero);
+    else { dragon(g, 134, 40, 106, 72, 0, 1); viking(g, 104, g.h - 14 - 33, 1, traits("og-a"), { sneak: true }); viking(g, 84, g.h - 14 - 33, 1, traits("og-b"), { sneak: true }); }
+    var y = opts.top || 16;
+    lines.forEach(function (l) {
+      var x = 12, sc = l.sc || 1;
+      l.segs.forEach(function (s) { text(g, s[0], x, y, sc, s[1], sc > 1 ? "ol" : null); x += textW(s[0] + " ", sc); });
+      y += sc * 5 + (l.gap || 6);
+    });
+  }
+
+  var api = { PAL: PAL, BEARDS: BEARDS, TUNICS: TUNICS, SHIELDS: SHIELDS, Grid: Grid, hash: hash, traits: traits, viking: viking, dragon: dragon, hoard: hoard,
+    goldFloor: goldFloor, cave: cave, coin: coin, sparkle: sparkle, zzz: zzz, scene: scene, card: card, text: text, textW: textW, F3: F3 };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.PX = api;
+})(this);
+
+</script>
+<script>
+// raid app: live hoard + market + raid clock, your viking from any wallet, the biggest raiders
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var SITE = "https://raidsol.vercel.app";
+  var SYS = "11111111111111111111111111111111";
+  var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var ADDR = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+  var CFG = { mint: null, vault: null };
+  var S = { market: null, marketOk: null, vaultSol: null, crew: [], me: null, ready: false };
+
+  function short(a) { return a ? a.slice(0, 4) + "…" + a.slice(-4) : ""; }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function usd(v) { return v == null ? "—" : v < 0.01 ? "<$0.01" : "$" + (v < 1000 ? v.toFixed(2) : Math.round(v).toLocaleString("en-US")); }
+  function amt(n) { if (n == null || !isFinite(n)) return "—"; if (n >= 1e9) return (n / 1e9).toFixed(2) + "b"; if (n >= 1e6) return (n / 1e6).toFixed(2) + "m"; if (n >= 1e3) return (n / 1e3).toFixed(1) + "k"; return String(+n.toPrecision(4)); }
+  function clock(d) { return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).toLowerCase(); }
+  function err(m) { $("err").textContent = m || ""; }
+  function rpc(method, params) {
+    return fetch("/api/rpc", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ method: method, params: params }) })
+      .then(function (r) { return r.json().catch(function () { return { error: "rpc " + r.status }; }); })
+      .then(function (j) { if (j.error) throw new Error(typeof j.error === "string" ? j.error : (j.error.message || "rpc error")); return j.result; });
+  }
+
+  // ---------- job clock (00/06/12/18 utc) + odds rule ----------
+  function nextJob(now) { var d = new Date(now); var h = d.getUTCHours(); var n = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), (Math.floor(h / 6) + 1) * 6); return n; }
+  // odds: 20% + 1% per 10 buys − 1% per 10 sells in the last 6h, kept between 5% and 80%
+  function odds(buys, sells) { if (buys == null || sells == null) return null; return Math.max(5, Math.min(80, 20 + Math.floor(buys / 10) - Math.floor(sells / 10))); }
+  function mood(o) { return o == null || o >= 50 ? 0 : o >= 25 ? 1 : 2; }
+  function tickClock() {
+    var ms = nextJob(Date.now()) - Date.now(), s = Math.max(0, Math.floor(ms / 1000));
+    var hh = Math.floor(s / 3600), mm = Math.floor(s % 3600 / 60), ss = s % 60;
+    S.jobTxt = (hh < 10 ? "0" : "") + hh + ":" + (mm < 10 ? "0" : "") + mm + ":" + (ss < 10 ? "0" : "") + ss;
+    $("bJob").textContent = S.jobTxt;
+    slots(); ticker();
+  }
+  function slots() {
+    var now = Date.now(), nj = nextJob(now), out = "";
+    for (var k = 0; k < 4; k++) {
+      var t = nj + k * 6 * 3600000, d = new Date(t), hh = d.getUTCHours(), left = Math.round((t - now) / 3600000);
+      out += '<div class="slot' + (k === 0 ? " next" : "") + '"><b>' + (hh < 10 ? "0" : "") + hh + ':00</b><span>' + clock(d) + '</span><em>' + (k === 0 ? "next · " + S.jobTxt : "in " + left + "h") + "</em></div>";
+    }
+    $("slots").innerHTML = out;
+  }
+  function ticker() {
+    var crewN = S.crewList ? S.crewList.length : null;
+    var items = ["next raid <i>" + (S.jobTxt || "—") + "</i>", "hoard <b>" + (S.vaultSol == null ? "—" : S.vaultSol.toFixed(2) + " sol") + "</b>", "odds <b>" + (S.oddsTxt || "—") + "</b>",
+      "crew on the board <b>" + (crewN == null ? "—" : crewN) + "</b>", "85% of fees fill the hoard", "sells wake the dragon"];
+    var one = items.map(function (x) { return "<span>" + x + "</span>"; }).join("");
+    $("tick").innerHTML = one + one;
+  }
+  function oddsPanel() {
+    var b = S.market ? S.market.buys6h : null, sl = S.market ? S.market.sells6h : null, o = odds(b, sl), segs = "", md = mood(o);
+    for (var i = 0; i < 16; i++) segs += "<i" + (o != null && (i + 1) * 5 <= o ? (o >= 80 ? ' class="on max"' : ' class="on"') : "") + "></i>";
+    $("meter").innerHTML = segs;
+    $("oBig").textContent = o == null ? "—" : o + "%";
+    $("oBuys").textContent = b == null ? "—" : "+" + b;
+    $("oSells").textContent = sl == null ? "—" : "−" + sl;
+    var mo = $("mood"); mo.className = "mood " + (o == null ? "mx" : "m" + md); mo.textContent = o == null ? "dragon —" : ["dragon asleep", "dragon stirring", "dragon awake"][md];
+    $("oNote").innerHTML = o == null ? "+1% per 10 buys. −1% per 10 sells." : o >= 80 ? "<b>Max odds.</b> 80% is the cap. Sells still pull it down." : "<b>" + (10 - b % 10) + " more buys</b> and the odds go to " + (o + 1) + "%. Every 10 sells takes 1% back.";
+  }
+
+  // ---------- live data ----------
+  function loadMarket() {
+    if (!CFG.mint) return Promise.resolve();
+    return fetch("/api/market?mint=" + CFG.mint).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) { S.market = j.market; S.marketOk = true; S.marketAt = new Date(j.fetchedAt); })
+      .catch(function () { S.marketOk = false; });
+  }
+  function loadVault() {
+    if (!CFG.vault) return Promise.resolve();
+    return Promise.all([
+      rpc("getBalance", [CFG.vault, { commitment: "confirmed" }]).then(function (r) { S.vaultSol = r.value / 1e9; }).catch(function () { S.vaultSol = null; S.vaultErr = true; }),
+      rpc("getSignaturesForAddress", [CFG.vault, { limit: 10 }]).then(function (r) { S.vaultLog = r || []; }).catch(function () { S.vaultLog = null; })
+    ]);
+  }
+  function loadCrew() {
+    if (!CFG.mint) return Promise.resolve();
+    return rpc("getTokenLargestAccounts", [CFG.mint, { commitment: "confirmed" }]).then(function (r) {
+      var rows = (r && r.value) || [];
+      if (!rows.length) { S.crew = []; return; }
+      return rpc("getMultipleAccounts", [rows.map(function (x) { return x.address; }), { encoding: "jsonParsed" }]).then(function (acc) {
+        var owners = (acc.value || []).map(function (a) { return a && a.data && a.data.parsed && a.data.parsed.info && a.data.parsed.info.owner; });
+        var uniq = owners.filter(function (o, i) { return o && owners.indexOf(o) === i; });
+        if (!uniq.length) { S.crew = []; return; }
+        return rpc("getMultipleAccounts", [uniq, { encoding: "base64", dataSlice: { offset: 0, length: 0 } }]).then(function (oa) {
+          var wallet = {};   // a real wallet is owned by the system program; pools and curves are owned by programs
+          uniq.forEach(function (o, i) { var v = oa.value && oa.value[i]; wallet[o] = !v || v.owner === SYS; });
+          var crew = [];
+          rows.forEach(function (x, i) {
+            var o = owners[i]; if (!o || !wallet[o] || o === CFG.vault) return;
+            var ui = Number(x.uiAmountString != null ? x.uiAmountString : x.uiAmount) || 0;
+            var prev = crew.filter(function (c) { return c.owner === o; })[0];
+            if (prev) prev.ui += ui; else crew.push({ owner: o, ui: ui });
+          });
+          S.crew = crew;
+        });
+      });
+    }).catch(function () { S.crew = null; });
+  }
+
+  function render() {
+    var m = S.market, price = m && m.priceUsd;
+    $("bVault").textContent = S.vaultSol == null ? "—" : S.vaultSol.toFixed(3) + " sol";
+    var o = m ? odds(m.buys6h, m.sells6h) : null; S.mood = mood(o);
+    S.oddsTxt = o == null ? "—" : o + "%";
+    $("bOdds").textContent = S.oddsTxt;
+    $("vBig").textContent = S.vaultSol == null ? "—" : S.vaultSol.toFixed(4) + " sol";
+    $("vAddr").innerHTML = CFG.vault ? 'hoard address: <a href="https://solscan.io/account/' + CFG.vault + '" target="_blank" rel="noopener">' + short(CFG.vault) + "</a>" : "hoard address: —";
+    var log = S.vaultLog;
+    $("vLog").innerHTML = !CFG.vault ? "<div><span>—</span><span>no hoard yet</span></div>" : log == null ? "<div><span>—</span><span>hoard activity unavailable right now</span></div>" :
+      !log.length ? "<div><span>—</span><span>no hoard transactions yet</span></div>" :
+      log.map(function (s) {
+        var t = s.blockTime ? new Date(s.blockTime * 1000) : null;
+        return "<div><span>" + (t ? t.toISOString().slice(0, 16).replace("T", " ") + " utc" : "—") + (s.err ? " · failed" : "") + '</span><a href="https://solscan.io/tx/' + esc(s.signature) + '" target="_blank" rel="noopener">' + esc(s.signature.slice(0, 8)) + "…</a></div>";
+      }).join("");
+    var left = [];
+    left.push(CFG.vault ? (S.vaultSol == null ? "hoard unreadable right now" : "hoard live from chain") : "hoard not set yet");
+    left.push(!CFG.mint ? "market not live yet" : S.marketOk === false ? "market data unavailable right now" : m ? "market live from dexscreener" + (S.marketAt ? " · " + clock(S.marketAt) : "") : "no market yet");
+    $("stLeft").textContent = left.join(" · ");
+    oddsPanel(); ticker();
+    renderCrew(price);
+    if (S.me) renderMe();
+    drawScene();
+  }
+
+  function mini(canvas, addr, dim) {
+    var g = new PX.Grid(26, 34); g.px.fill(-1);
+    PX.viking(g, 0, 0, 1, PX.traits(addr), { dim: dim });
+    var img = canvas.getContext("2d").createImageData(26, 34); g.rgba(img.data); canvas.getContext("2d").putImageData(img, 0, 0);
+  }
+  function renderCrew(price) {
+    var box = $("crewBox");
+    S.crewList = null; $("crewN").textContent = "—";
+    if (!CFG.mint) { box.innerHTML = '<div class="empty">—<br>the crew forms at launch.</div>'; return; }
+    if (S.crew == null) { box.innerHTML = '<div class="empty">—<br>holder data unavailable right now.</div>'; return; }
+    var list = S.crew.slice();
+    if (price != null) { list = list.filter(function (c) { return c.ui * price >= 50; }); S.crewList = list; $("crewN").textContent = list.length; }
+    if (!list.length) { box.innerHTML = '<div class="empty">—<br>' + (price == null ? "no price yet, so nobody can be checked against $50." : "nobody in the top 20 holds $50 yet.") + "</div>"; return; }
+    box.innerHTML = '<div class="crew">' + list.map(function (c, i) {
+      var t = PX.traits(c.owner);
+      return '<div class="mate frame"><canvas class="px" width="26" height="34" data-o="' + c.owner + '"></canvas><b>' + esc(t.name) + "</b><span>" + short(c.owner) + "</span><i>" + (price != null ? usd(c.ui * price) : amt(c.ui)) + "</i></div>";
+    }).join("") + '<button class="mate seat" type="button" id="seat"><span class="q">?</span><b>your seat</b><span>check your wallet</span></button></div>';
+    $("seat").addEventListener("click", function () { $("checkIn").focus(); window.scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" }); });
+    [].forEach.call(box.querySelectorAll("canvas[data-o]"), function (cv) { mini(cv, cv.dataset.o, false); });
+  }
+
+  // ---------- the scene ----------
+  var sc = $("scene"), sctx = sc.getContext("2d"), phase = 0;
+  function drawScene() {
+    var W = sc.parentElement.clientWidth < 640 ? 200 : 320, H = 124;
+    if (sc.width !== W || sc.height !== H) { sc.width = W; sc.height = H; }
+    var g = new PX.Grid(W, H);
+    var crew = (S.crewList || []).slice(0, 3).map(function (c) { return PX.traits(c.owner); });
+    var hud = [["HOARD", S.vaultSol == null ? "—" : S.vaultSol.toFixed(2) + " SOL", "gold"], ["NEXT RAID", S.jobTxt || "—", "red"], ["ODDS", S.oddsTxt || "—", "white"]];
+    PX.scene(g, { phase: phase, crew: crew, still: REDUCED, hud: hud, mood: S.mood || 0 });
+    var img = sctx.createImageData(W, H); g.rgba(img.data); sctx.putImageData(img, 0, 0);
+  }
+  function loop() {
+    if (!document.hidden && !REDUCED) { phase++; drawScene(); }
+    tickClock();
+    setTimeout(function () { requestAnimationFrame(loop); }, 100);
+  }
+  window.addEventListener("resize", drawScene);
+
+  // ---------- your viking ----------
+  function check(addr) {
+    err("");
+    var me = S.me = { addr: addr, t: PX.traits(addr), ui: null, state: "wait" };
+    renderMe();
+    $("you").classList.remove("hidden");
+    if (!CFG.mint) { me.state = "prelaunch"; renderMe(); return Promise.resolve(); }
+    return rpc("getTokenAccountsByOwner", [addr, { mint: CFG.mint }, { encoding: "jsonParsed", commitment: "confirmed" }]).then(function (r) {
+      if (S.me !== me) return;
+      me.ui = ((r && r.value) || []).reduce(function (s, a) { var t = a.account.data.parsed.info.tokenAmount; return s + (Number(t.uiAmountString != null ? t.uiAmountString : t.uiAmount) || 0); }, 0);
+      me.state = "ok"; renderMe();
+    }).catch(function (e) { if (S.me !== me) return; me.state = "fail"; renderMe(); err("couldn't read that wallet right now (" + e.message + ")."); });
+  }
+  function renderMe() {
+    var me = S.me, price = S.market && S.market.priceUsd, val = me.ui != null && price != null ? me.ui * price : null;
+    var g = new PX.Grid(60, 64); PX.cave(g, 5); PX.goldFloor(g, 56, 4);
+    var out = me.state === "ok" && val != null && val < 50;
+    PX.viking(g, 4, -10, 2, me.t, { dim: out });
+    var c = $("me").getContext("2d"), img = c.createImageData(60, 64); g.rgba(img.data); c.putImageData(img, 0, 0);
+    $("youName").textContent = me.t.name;
+    $("youAddr").textContent = me.addr;
+    var tag = $("youTag");
+    if (me.state === "prelaunch") { tag.className = "tag wait"; tag.textContent = "READY · NOT LIVE YET"; }
+    else if (me.state !== "ok") { tag.className = "tag wait"; tag.textContent = me.state === "fail" ? "—" : "CHECKING…"; }
+    else if (val == null) { tag.className = "tag wait"; tag.textContent = me.ui ? "HOLDING · NO PRICE YET" : "NOT HOLDING"; }
+    else if (val >= 50) { tag.className = "tag in"; tag.textContent = "IN THE CREW"; }
+    else { tag.className = "tag out"; tag.textContent = me.ui ? "BENCHED · UNDER $50" : "NOT IN THE CREW"; }
+    $("youHold").textContent = me.ui == null ? "—" : amt(me.ui);
+    $("youVal").textContent = val == null ? "—" : usd(val);
+    $("youNeed").textContent = val == null ? "—" : val >= 50 ? "you're in" : usd(50 - val) + " more";
+    var txt = "my raid viking: \"" + me.t.name + "\". every 6 hours we hit the dragon's hoard. sells wake the dragon.";
+    $("post").href = "https://x.com/intent/post?text=" + encodeURIComponent(txt) + "&url=" + encodeURIComponent(SITE);
+    $("buy").classList.toggle("hidden", !CFG.mint);
+    if (CFG.mint) $("buy").href = S.market && S.market.url ? S.market.url : "https://dexscreener.com/solana/" + CFG.mint;
+  }
+  $("save").addEventListener("click", function () {
+    if (!S.me) return;
+    var g = new PX.Grid(240, 126);
+    PX.card(g, [{ segs: [["raid", "gold"]], sc: 4, gap: 10 }, { segs: [[S.me.t.name, "white"]], sc: 2, gap: 8 }, { segs: [[short(S.me.addr), "dim"]], sc: 1 }], { top: 16, hero: S.me.t });
+    var small = document.createElement("canvas"); small.width = 240; small.height = 126;
+    var sx = small.getContext("2d"), img = sx.createImageData(240, 126); g.rgba(img.data); sx.putImageData(img, 0, 0);
+    var big = document.createElement("canvas"); big.width = 1200; big.height = 630;
+    var bx = big.getContext("2d"); bx.imageSmoothingEnabled = false; bx.drawImage(small, 0, 0, 1200, 630);
+    big.toBlob(function (b) { var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "my-raid-viking.png"; document.body.appendChild(a); a.click(); a.remove(); });
+  });
+  $("check").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = $("checkIn").value.trim();
+    if (!ADDR.test(v)) { err("that's not a solana wallet address."); return; }
+    history.replaceState(null, "", "?w=" + v);
+    check(v);
+  });
+
+  // ---------- wallet (read the address only; nothing is ever signed) ----------
+  var wallets = [];
+  var api = { register: function () {
+    for (var i = 0; i < arguments.length; i++) {
+      var w = arguments[i];
+      if (w && w.features && w.features["standard:connect"] && (w.chains || []).some(function (c) { return c.indexOf("solana:") === 0; }) && wallets.indexOf(w) < 0) wallets.push(w);
+    }
+    return function () {};
+  } };
+  window.addEventListener("wallet-standard:register-wallet", function (e) { try { e.detail(api); } catch (x) {} });
+  try { window.dispatchEvent(new CustomEvent("wallet-standard:app-ready", { detail: api })); } catch (x) {}
+  function connect(w) {
+    return w.features["standard:connect"].connect().then(function (out) {
+      var acc = ((out && out.accounts) || w.accounts || [])[0];
+      if (!acc) throw new Error("no account");
+      $("navConnect").textContent = short(acc.address);
+      $("connect").textContent = "my viking";
+      history.replaceState(null, "", location.pathname);
+      return check(acc.address);
+    }).catch(function (e) { err("wallet didn't connect: " + (e && e.message ? e.message : "declined")); });
+  }
+  function pick() {
+    if (wallets.length === 1) return connect(wallets[0]);
+    var box = $("wl"); box.innerHTML = "";
+    wallets.forEach(function (w) {
+      var b = document.createElement("button"); b.type = "button";
+      b.innerHTML = (w.icon ? '<img alt="" src="' + esc(w.icon) + '">' : "") + "<span>" + esc(w.name) + "</span>";
+      b.addEventListener("click", function () { $("wdlg").close(); connect(w); });
+      box.appendChild(b);
+    });
+    $("wnone").classList.toggle("hidden", wallets.length > 0);
+    $("wdlg").showModal();
+  }
+  $("navConnect").addEventListener("click", pick);
+  $("connect").addEventListener("click", pick);
+  $("connect2").addEventListener("click", pick);
+
+  // ---------- rule icons ----------
+  function paint(cv, g) { var c = cv.getContext("2d"), img = c.createImageData(g.w, g.h); g.rgba(img.data); c.putImageData(img, 0, 0); }
+  function icons() {
+    [].forEach.call(document.querySelectorAll("canvas[data-ic]"), function (cv) {
+      var g = new PX.Grid(96, 60), n = +cv.dataset.ic, fy = 52;
+      PX.cave(g, 3 + n); PX.goldFloor(g, fy, n + 1);
+      if (n === 0) { PX.viking(g, 8, fy - 33, 1, PX.traits("plan-a")); PX.viking(g, 35, fy - 33, 1, PX.traits("plan-b")); PX.viking(g, 62, fy - 33, 1, PX.traits("plan-c"), { mirror: true }); }
+      if (n === 1) { PX.hoard(g, 48, 60, 40, 22, 5); PX.sparkle(g, 30, 30); PX.sparkle(g, 70, 26); }
+      if (n === 2) { PX.dragon(g, 34, 8, 62, 46, 0, 1); PX.viking(g, 4, fy - 33, 1, PX.traits("plan-d"), { sneak: true }); }
+      if (n === 3) { PX.hoard(g, 48, 60, 22, 14, 7); PX.viking(g, 2, fy - 33, 1, PX.traits("plan-e")); PX.viking(g, 68, fy - 33, 1, PX.traits("plan-f"), { mirror: true }); PX.sparkle(g, 48, 34); }
+      paint(cv, g);
+    });
+    var v = new PX.Grid(28, 28); v.px.fill(-1); PX.hoard(v, 14, 27, 13, 12, 2); paint($("vIc"), v);
+    var l = new PX.Grid(140, 40); l.px.fill(-1);
+    ["lineup-1", "lineup-2", "lineup-3", "lineup-4", "lineup-5"].forEach(function (k, i) { PX.viking(l, 2 + i * 27, 4, 1, PX.traits(k), { mirror: i > 2 }); });
+    paint($("lineup"), l);
+  }
+  icons();
+
+  // ---------- boot ----------
+  (function () {
+    var c = $("mark"), g = new PX.Grid(26, 24); g.px.fill(-1); PX.viking(g, 0, -1, 1, { beard: 0, tunic: 0, shield: 0, eyes: "open" });
+    var img = c.getContext("2d").createImageData(26, 24); g.rgba(img.data); c.getContext("2d").putImageData(img, 0, 0);
+  })();
+  function refresh() { return Promise.all([loadMarket(), loadVault(), loadCrew()]).then(render); }
+  fetch("/api/config").then(function (r) { return r.json(); }).then(function (j) { if (j) CFG = j; }).catch(function () {}).then(function () {
+    if (CFG.mint) {
+      $("ca").textContent = short(CFG.mint);
+      $("buy2").href = "https://dexscreener.com/solana/" + CFG.mint; $("buy2").classList.remove("hidden");
+      $("navHeist").addEventListener("click", function () {
+        if (navigator.clipboard) navigator.clipboard.writeText(CFG.mint).then(function () { $("ca").textContent = "copied"; setTimeout(function () { $("ca").textContent = short(CFG.mint); }, 1400); });
+      });
+    }
+    S.ready = true;
+    render();
+    var q = new URLSearchParams(location.search).get("w");
+    if (q && ADDR.test(q)) { $("checkIn").value = q; check(q); }
+    return refresh();
+  }).then(function () { setInterval(refresh, 60000); });
+  drawScene(); tickClock(); loop();
+  window.__raid = { S: S, cfg: function () { return CFG; }, odds: odds, mood: mood, nextJob: nextJob };
+})();
+
+</script>
+</body>
+</html>
