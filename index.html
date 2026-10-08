@@ -143,13 +143,19 @@ dialog h3{margin:0 0 12px;font:400 16px var(--px);text-transform:uppercase}
 .scale{display:flex;justify-content:space-between;margin-top:8px;font:400 11px var(--px);color:var(--dim)}
 .oddsnote{margin:16px 0 0;font:500 14px var(--mono);color:var(--mut)}
 .oddsnote b{color:var(--gold);font-weight:700}
-.slots{display:grid;gap:10px;margin-top:12px}
-.slot{display:grid;grid-template-columns:86px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 14px;background:#1a1220;border:3px solid #0b080d}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.cd{font:400 clamp(44px,6.4vw,72px)/1 var(--px);color:var(--red);text-shadow:5px 5px 0 #0b080d;margin:8px 0 6px}
+.cdsub{font:500 13px var(--mono);color:var(--mut)}
+#scene{cursor:pointer}
+.stage.bleed{width:min(100vw,1440px);position:relative;left:50%;transform:translateX(-50%);border-left:0;border-right:0;box-shadow:0 4px 0 #3a2836,0 12px 0 #0b080d}
+@media (min-width:1441px){.stage.bleed{border-left:4px solid #0b080d;border-right:4px solid #0b080d}}
+.step .in{text-align:center}
+.slot{display:block;text-align:center;padding:10px 4px;background:#1a1220;border:3px solid #0b080d}
 .slot b{font:400 20px var(--px);color:var(--mut)}
 .slot span{font:500 13px var(--mono);color:var(--dim)}
 .slot em{font-style:normal;font:400 11px var(--px);color:var(--dim);text-transform:uppercase}
 .slot.next{background:#2a1a10;border-color:var(--red);box-shadow:4px 4px 0 #0b080d}
-.slot.next b{color:var(--red)}.slot.next em{color:var(--ink)}
+.slot.next b{color:var(--red)}
 .crewhead{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between;margin:-8px 0 20px;font:500 14px var(--mono);color:var(--mut)}
 .crewhead b{font:400 22px var(--px);color:var(--gold)}
 .mate.seat{border-style:dashed;background:rgba(13,23,30,.6);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:150px;color:var(--dim);box-shadow:none;border:3px dashed var(--line)}
@@ -160,7 +166,7 @@ dialog h3{margin:0 0 12px;font:400 16px var(--px);text-transform:uppercase}
 .step canvas{width:100%;height:auto;display:block;border-bottom:4px solid #0b080d}
 .step .in{padding:16px 16px 18px}
 .step .k{font:400 12px var(--px);color:var(--red)}
-.step h3{margin:6px 0 6px;font:400 19px/1.15 var(--px);text-transform:uppercase}
+.step h3{margin:4px 0 2px;font:400 18px/1.15 var(--px);text-transform:uppercase}
 .step p{margin:0;color:var(--mut);font-size:15px}
 .vnum{display:flex;align-items:center;gap:14px}
 .vnum canvas{width:56px;height:56px}
@@ -174,7 +180,7 @@ footer{margin-top:0}
 footer .wrap{align-items:center}
 footer .brand{font-size:16px}
 @media (max-width:980px){.job{grid-template-columns:minmax(0,1fr)}.plan{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:620px){.plan{grid-template-columns:minmax(0,1fr)}.pitch p{font-size:16px}.slot{grid-template-columns:70px minmax(0,1fr) auto}.slot b{font-size:17px}.ticker span{font-size:12px}.cta{margin-top:72px;padding:30px 16px}}
+@media (max-width:620px){.plan{grid-template-columns:minmax(0,1fr)}.pitch p{font-size:16px}.slot b{font-size:15px}.ticker span{font-size:12px}.cta{margin-top:72px;padding:30px 16px}}
 @media (prefers-reduced-motion:reduce){.ticker .run{animation:none}}
 .mood{display:inline-block;margin-left:10px;font:400 11px var(--px);padding:5px 8px;border:3px solid #0b080d;vertical-align:middle}
 .mood.m0{background:#2f8a5a;color:#fff}.mood.m1{background:#ffd34d;color:#2a1a10}.mood.m2{background:#e8552e;color:#fff}.mood.mx{background:#2f1f30;color:var(--dim)}
@@ -196,15 +202,15 @@ footer .brand{font-size:16px}
 <main id="top">
 <header class="hero wrap">
   <h1 class="sr">RAID</h1>
-  <div class="stage frame" id="stage">
-    <canvas id="scene" class="px" width="320" height="124" aria-label="the dragon's cave: hoard balance, next raid and odds"></canvas>
+  <div class="stage frame bleed" id="stage">
+    <canvas id="scene" class="px" width="320" height="124" aria-label="the dragon's cave: hoard balance, next raid and odds" title="poke the dragon"></canvas>
   </div>
   <div class="sr" id="board" aria-live="polite">hoard <span id="bVault">—</span>, next raid <span id="bJob">—</span>, odds <span id="bOdds">—</span></div>
   <div class="status"><span id="stLeft">—</span><span id="stRight">raids at 00:00 · 06:00 · 12:00 · 18:00 utc</span></div>
   <div class="bar">
     <div class="pitch">
-      <h2>a crew of vikings.<br><em>one sleeping dragon.</em></h2>
-      <p>Every 6 hours we raid the hoard. Win, we split it. Lose, it grows. <b>Sells wake the dragon. $50 gets you in.</b></p>
+      <h2>hold $50.<br><em>raid the dragon.</em></h2>
+      <p>every 6h · win: we split it · lose: it grows · <b>sells wake it</b></p>
     </div>
     <div class="actions">
       <button class="btn" id="connect" type="button">connect wallet</button>
@@ -245,10 +251,12 @@ footer .brand{font-size:16px}
       <div class="flow"><div class="pos">buys · last 6h<b id="oBuys">—</b></div><div class="neg">sells · last 6h<b id="oSells">—</b></div></div>
       <div class="meter" id="meter"></div>
       <div class="scale"><span>0%</span><span>40%</span><span>80% max</span></div>
-      <p class="oddsnote" id="oNote">+1% per 10 buys. −1% per 10 sells.</p>
+      <p class="oddsnote" id="oNote">+10 buys = +1% · +10 sells = −1%</p>
     </div>
     <div class="panel frame">
-      <div class="lab">raid times · your clock</div>
+      <div class="lab">next raid</div>
+      <div class="cd" id="cd">—</div>
+      <div class="cdsub" id="cdSub">—</div>
       <div class="slots" id="slots"></div>
     </div>
   </div>
@@ -256,17 +264,17 @@ footer .brand{font-size:16px}
 
 <section class="sec wrap" id="crew">
   <h2 class="t"><span>02 / THE CREW</span>who's going in</h2>
-  <div class="crewhead"><span>biggest raiders right now</span><span>crew on the board <b id="crewN">—</b></span></div>
+  <div class="crewhead"><span></span><span>crew <b id="crewN">—</b></span></div>
   <div id="crewBox"><div class="empty">—<br>the crew forms at launch.</div></div>
 </section>
 
 <section class="sec wrap" id="plan">
   <h2 class="t"><span>03 / THE PLAN</span>hold. sneak. raid.</h2>
   <div class="plan">
-    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="0" aria-hidden="true"></canvas><div class="in"><div class="k">STEP 1 · $50</div><h3>grab a shield</h3><p>Hold $50 and you're a viking. Beard, shield and name come from your wallet.</p></div></div>
-    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="1" aria-hidden="true"></canvas><div class="in"><div class="k">STEP 2 · 85%</div><h3>the hoard grows</h3><p>85% of creator fees go into the hoard wallet. Every coin on chain.</p></div></div>
-    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="2" aria-hidden="true"></canvas><div class="in"><div class="k">STEP 3 · EVERY 6H</div><h3>the raid</h3><p>At 00, 06, 12 and 18 UTC we go in. Odds start at 20%, +1% per 10 buys, −1% per 10 sells. 5% to 80%.</p></div></div>
-    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="3" aria-hidden="true"></canvas><div class="in"><div class="k">STEP 4 · THE SPLIT</div><h3>win or burn</h3><p>Win: the hoard splits equally across the crew. Lose: it rolls into the next raid. Under $50 at go time, you sit out.</p></div></div>
+    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="0" aria-hidden="true"></canvas><div class="in"><div class="k">01</div><h3>hold $50</h3></div></div>
+    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="1" aria-hidden="true"></canvas><div class="in"><div class="k">02</div><h3>85% → hoard</h3></div></div>
+    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="2" aria-hidden="true"></canvas><div class="in"><div class="k">03</div><h3>raid every 6h</h3></div></div>
+    <div class="step frame"><canvas class="px ic" width="96" height="60" data-ic="3" aria-hidden="true"></canvas><div class="in"><div class="k">04</div><h3>win = split</h3></div></div>
   </div>
 </section>
 
@@ -286,7 +294,7 @@ footer .brand{font-size:16px}
   <div class="cta frame">
     <canvas id="lineup" class="px" width="140" height="40" aria-hidden="true"></canvas>
     <h2>$50 gets you <em>in.</em></h2>
-    <p>Connect or paste a wallet to meet your viking.</p>
+    <p>meet your viking.</p>
     <div class="actions"><button class="btn" id="connect2" type="button">connect wallet</button><a class="btn alt hidden" id="buy2" href="#" target="_blank" rel="noopener">buy</a></div>
   </div>
 </section>
@@ -574,13 +582,13 @@ footer .brand{font-size:16px}
     cave(g, 7);
     var fy = H - 12;
     goldFloor(g, fy, 9);
-    var dw = Math.round(W * 0.5), dh = Math.round(H * 0.6), dx = W - dw, dy = H - dh - 10;
-    hoard(g, Math.round(W * 0.78), H, Math.round(W * 0.26), Math.round(H * 0.3), 3);
+    var dw = Math.round(W * (W >= 400 ? 0.46 : 0.5)), dh = Math.round(H * 0.6), dx = W - dw, dy = H - dh - 10;
+    hoard(g, Math.round(W * 0.78), H, Math.round(W * (W >= 400 ? 0.24 : 0.26)), Math.round(H * 0.3), 3);
     var breath = opts.still ? 0 : (mood === 0 ? Math.round(1 + Math.sin(ph / 6)) : 0);
     var d = dragon(g, dx, dy, dw, dh, mood, breath);
     if (mood === 0) zzz(g, d.nose[0] - 2, d.nose[1] - 10, opts.still ? 0 : ph);
     else smoke(g, d.nose[0], d.nose[1], opts.still ? 0 : ph);
-    var n = W >= 300 ? 3 : 2, sx = Math.round(W * (W >= 300 ? 0.27 : 0.29));
+    var n = W >= 400 ? 5 : W >= 300 ? 3 : 2, sx = W >= 400 ? 86 : Math.round(W * (W >= 300 ? 0.27 : 0.29));
     for (var i = 0; i < n; i++) {
       var t = crew[i] || traits("crew" + i), step = opts.still ? 0 : ((ph + i * 3) >> 2) % 2;
       viking(g, sx + i * 19, fy - 33 - step, 1, t, { sneak: true });
@@ -650,11 +658,10 @@ footer .brand{font-size:16px}
     slots(); ticker();
   }
   function slots() {
-    var now = Date.now(), nj = nextJob(now), out = "";
-    for (var k = 0; k < 4; k++) {
-      var t = nj + k * 6 * 3600000, d = new Date(t), hh = d.getUTCHours(), left = Math.round((t - now) / 3600000);
-      out += '<div class="slot' + (k === 0 ? " next" : "") + '"><b>' + (hh < 10 ? "0" : "") + hh + ':00</b><span>' + clock(d) + '</span><em>' + (k === 0 ? "next · " + S.jobTxt : "in " + left + "h") + "</em></div>";
-    }
+    var now = Date.now(), nj = nextJob(now), d = new Date(nj), hh = d.getUTCHours(), out = "";
+    $("cd").textContent = S.jobTxt || "—";
+    $("cdSub").textContent = (hh < 10 ? "0" : "") + hh + ":00 utc · " + clock(d) + " your time";
+    [0, 6, 12, 18].forEach(function (h) { out += '<div class="slot' + (h === hh ? " next" : "") + '"><b>' + (h < 10 ? "0" : "") + h + "</b></div>"; });
     $("slots").innerHTML = out;
   }
   function ticker() {
@@ -672,7 +679,7 @@ footer .brand{font-size:16px}
     $("oBuys").textContent = b == null ? "—" : "+" + b;
     $("oSells").textContent = sl == null ? "—" : "−" + sl;
     var mo = $("mood"); mo.className = "mood " + (o == null ? "mx" : "m" + md); mo.textContent = o == null ? "dragon —" : ["dragon asleep", "dragon stirring", "dragon awake"][md];
-    $("oNote").innerHTML = o == null ? "+1% per 10 buys. −1% per 10 sells." : o >= 80 ? "<b>Max odds.</b> 80% is the cap. Sells still pull it down." : "<b>" + (10 - b % 10) + " more buys</b> and the odds go to " + (o + 1) + "%. Every 10 sells takes 1% back.";
+    $("oNote").innerHTML = o == null ? "+10 buys = +1% · +10 sells = −1%" : o >= 80 ? "<b>max odds</b> · sells still pull it down" : "<b>" + (10 - b % 10) + " buys</b> to " + (o + 1) + "%";
   }
 
   // ---------- live data ----------
@@ -763,12 +770,14 @@ footer .brand{font-size:16px}
   // ---------- the scene ----------
   var sc = $("scene"), sctx = sc.getContext("2d"), phase = 0;
   function drawScene() {
-    var W = sc.parentElement.clientWidth < 640 ? 200 : 320, H = 124;
+    var cw = sc.parentElement.clientWidth, W = cw < 640 ? 200 : cw > 1100 ? 400 : 320, H = 124;
     if (sc.width !== W || sc.height !== H) { sc.width = W; sc.height = H; }
     var g = new PX.Grid(W, H);
-    var crew = (S.crewList || []).slice(0, 3).map(function (c) { return PX.traits(c.owner); });
+    var crew = (S.crewList || []).slice(0, 5).map(function (c) { return PX.traits(c.owner); });
     var hud = [["HOARD", S.vaultSol == null ? "—" : S.vaultSol.toFixed(2) + " SOL", "gold"], ["NEXT RAID", S.jobTxt || "—", "red"], ["ODDS", S.oddsTxt || "—", "white"]];
-    PX.scene(g, { phase: phase, crew: crew, still: REDUCED, hud: hud, mood: S.mood || 0 });
+    var poked = S.poke && Date.now() - S.poke < 1600;
+    PX.scene(g, { phase: phase, crew: crew, still: REDUCED, hud: hud, mood: poked ? 2 : (S.mood || 0) });
+    if (poked) { var gx = Math.round(W * 0.5) + 6, gy = 30; PX.text(g, "GRR!", gx, gy, 2, "red", "ol"); }
     var img = sctx.createImageData(W, H); g.rgba(img.data); sctx.putImageData(img, 0, 0);
   }
   function loop() {
@@ -777,6 +786,7 @@ footer .brand{font-size:16px}
     setTimeout(function () { requestAnimationFrame(loop); }, 100);
   }
   window.addEventListener("resize", drawScene);
+  sc.addEventListener("click", function () { S.poke = Date.now(); drawScene(); setTimeout(drawScene, 1700); });
 
   // ---------- your viking ----------
   function check(addr) {
